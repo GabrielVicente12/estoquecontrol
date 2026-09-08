@@ -87,14 +87,14 @@ class ProdutoServiceTest {
         produtoService.receberEstoque(produto.getId(), new BigDecimal("5.000"));
 
         Produto atualizado = produtoRepository.findById(produto.getId()).orElseThrow();
-        assertEquals(0, new BigDecimal("15.000").compareTo(atualizado.getSaldoEstoque()));
+        assertEquals(0, new BigDecimal("5.000").compareTo(atualizado.getSaldoEstoque()));
     }
 
     private Produto novoProduto(String codigo) {
         return new Produto(
                 codigo,
                 "Produto de teste",
-                new BigDecimal("10.000"),
+                BigDecimal.ZERO,
                 new BigDecimal("25.90"),
                 new BigDecimal("2.000"),
                 LocalDate.of(2026, 8, 27));

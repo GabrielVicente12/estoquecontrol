@@ -57,10 +57,10 @@ class PersistenciaJpaTest {
     @Test
     void deveRegistrarTodosOsChangeSetsDoCurso() {
         Integer quantidade = jdbcTemplate.queryForObject(
-                "SELECT COUNT(*) FROM databasechangelog",
+                "SELECT COUNT(*) FROM historico_migracao",
                 Integer.class);
 
-        assertEquals(17, quantidade);
+        assertEquals(18, quantidade);
     }
 
     @Test

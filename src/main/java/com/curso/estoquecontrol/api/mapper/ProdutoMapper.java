@@ -15,7 +15,7 @@ public class ProdutoMapper {
         return new Produto(
                 request.codigoBarras(),
                 request.descricao(),
-                request.saldoEstoque(),
+                java.math.BigDecimal.ZERO,
                 request.valorUnitario(),
                 request.estoqueMinimo(),
                 LocalDate.now());

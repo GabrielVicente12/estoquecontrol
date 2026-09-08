@@ -18,6 +18,21 @@ import java.util.Map;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
+    @ExceptionHandler(com.curso.estoquecontrol.domain.SaldoInsuficienteException.class)
+    public ResponseEntity<ApiError> tratarSaldo(RuntimeException exception, HttpServletRequest request) {
+        return resposta(HttpStatus.CONFLICT, exception.getMessage(), request, Map.of());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> tratarDominio(IllegalArgumentException exception, HttpServletRequest request) {
+        return resposta(HttpStatus.BAD_REQUEST, exception.getMessage(), request, Map.of());
+    }
+
+    @ExceptionHandler(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiError> tratarParametro(RuntimeException exception, HttpServletRequest request) {
+        return resposta(HttpStatus.BAD_REQUEST, "Parâmetro inválido", request, Map.of());
+    }
+
     @ExceptionHandler(RecursoNaoEncontradoException.class)
     public ResponseEntity<ApiError> tratarNaoEncontrado(
             RecursoNaoEncontradoException exception,

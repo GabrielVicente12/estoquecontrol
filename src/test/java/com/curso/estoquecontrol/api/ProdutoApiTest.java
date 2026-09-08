@@ -45,7 +45,6 @@ class ProdutoApiTest {
                 {
                   "codigoBarras": "API-001",
                   "descricao": "Produto criado pela API",
-                  "saldoEstoque": 10.000,
                   "valorUnitario": 49.90,
                   "estoqueMinimo": 2.000,
                   "grupoId": %d,

@@ -12,6 +12,10 @@ import java.util.Optional;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
+    @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
+    @Query("select p from Produto p where p.id = :id")
+    Optional<Produto> buscarParaMovimentar(@Param("id") Long id);
+
     Optional<Produto> findByCodigoBarras(String codigoBarras);
 
     boolean existsByCodigoBarras(String codigoBarras);

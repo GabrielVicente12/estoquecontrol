@@ -18,18 +18,24 @@ public class ProdutoService {
     private final ProdutoRepository produtoRepository;
     private final GrupoProdutoRepository grupoRepository;
     private final FornecedorRepository fornecedorRepository;
+    private final LancamentoEstoqueService lancamentoService;
 
     public ProdutoService(
             ProdutoRepository produtoRepository,
             GrupoProdutoRepository grupoRepository,
-            FornecedorRepository fornecedorRepository) {
+            FornecedorRepository fornecedorRepository,
+            LancamentoEstoqueService lancamentoService) {
         this.produtoRepository = produtoRepository;
         this.grupoRepository = grupoRepository;
         this.fornecedorRepository = fornecedorRepository;
+        this.lancamentoService = lancamentoService;
     }
 
     @Transactional
     public Produto cadastrar(Produto produto, Long grupoId, Long fornecedorId) {
+        if (produto.getSaldoEstoque().signum() != 0) {
+            throw new IllegalArgumentException("Produto deve iniciar com saldo zero; registre uma entrada");
+        }
         if (produtoRepository.existsByCodigoBarras(produto.getCodigoBarras())) {
             throw new RecursoDuplicadoException("Código de barras já cadastrado");
         }
@@ -63,10 +69,7 @@ public class ProdutoService {
 
     @Transactional
     public Produto receberEstoque(Long id, BigDecimal quantidade) {
-        Produto produto = produtoRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException(
-                        "Produto não encontrado"));
-        produto.receberEstoque(quantidade);
-        return produto;
+        return lancamentoService.registrar(id, com.curso.estoquecontrol.domain.TipoMovimento.ENTRADA,
+                quantidade, null).getProduto();
     }
 }

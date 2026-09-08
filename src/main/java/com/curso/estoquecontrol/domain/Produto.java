@@ -120,14 +120,18 @@ public class Produto {
 
     public void receberEstoque(BigDecimal quantidade) {
         validarPositivo(quantidade, "Quantidade recebida deve ser maior que zero");
-        this.saldoEstoque = saldoEstoque.add(quantidade);
+        BigDecimal novoSaldo = saldoEstoque.add(quantidade);
+        if (novoSaldo.compareTo(new BigDecimal("999999999999999.999")) > 0) {
+            throw new IllegalArgumentException("Saldo excede o limite de armazenamento");
+        }
+        this.saldoEstoque = novoSaldo;
     }
 
     public void retirarEstoque(BigDecimal quantidade) {
         validarPositivo(quantidade, "Quantidade retirada deve ser maior que zero");
 
         if (saldoEstoque.compareTo(quantidade) < 0) {
-            throw new IllegalArgumentException("Saldo de estoque insuficiente");
+            throw new SaldoInsuficienteException();
         }
 
         this.saldoEstoque = saldoEstoque.subtract(quantidade);
@@ -228,6 +232,9 @@ public class Produto {
         Objects.requireNonNull(valor, mensagem);
         if (valor.signum() <= 0) {
             throw new IllegalArgumentException(mensagem);
+        }
+        if (valor.stripTrailingZeros().scale() > 3 || valor.compareTo(new BigDecimal("999999999999999.999")) > 0) {
+            throw new IllegalArgumentException("Quantidade deve ter até 15 inteiros e 3 casas decimais");
         }
     }
 }

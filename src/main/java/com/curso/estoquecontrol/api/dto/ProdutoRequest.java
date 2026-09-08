@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Digits;
 
 import java.math.BigDecimal;
 
@@ -17,16 +18,14 @@ public record ProdutoRequest(
         @Size(max = 150, message = "Descrição deve possuir no máximo 150 caracteres")
         String descricao,
 
-        @NotNull(message = "Saldo de estoque é obrigatório")
-        @PositiveOrZero(message = "Saldo de estoque não pode ser negativo")
-        BigDecimal saldoEstoque,
-
         @NotNull(message = "Valor unitário é obrigatório")
         @PositiveOrZero(message = "Valor unitário não pode ser negativo")
+        @Digits(integer = 16, fraction = 2, message = "Valor unitário deve ter até 16 inteiros e 2 casas decimais")
         BigDecimal valorUnitario,
 
         @NotNull(message = "Estoque mínimo é obrigatório")
         @PositiveOrZero(message = "Estoque mínimo não pode ser negativo")
+        @Digits(integer = 15, fraction = 3, message = "Estoque mínimo deve ter até 15 inteiros e 3 casas decimais")
         BigDecimal estoqueMinimo,
 
         @NotNull(message = "Grupo é obrigatório")
