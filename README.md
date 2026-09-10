@@ -1,6 +1,6 @@
 # Estoquecontrol
 
-API simples para cadastro de produtos e lançamentos de entrada e saída de estoque, adaptada do material de [Jefferson Ar Passerini — aulas 00 a 07](https://github.com/jeffersonarpasserini/suporteos2026/tree/main/docs).
+API para cadastro de produtos e lançamentos de entrada e saída de estoque, adaptada do material de [Jefferson Ar Passerini — aulas 00 a 07](https://github.com/jeffersonarpasserini/suporteos2026/tree/main/docs).
 
 ## Tecnologias e organização
 
