@@ -110,6 +110,14 @@ Consultar um produto pelo ID:
 
 **URL:** `http://localhost:8080/api/produtos/1`
 
+Consultar produtos com saldo abaixo do estoque mínimo:
+
+**Método:** `GET`
+
+**URL:** `http://localhost:8080/api/produtos/estoque-baixo`
+
+São retornados somente os produtos em que `saldoEstoque` é menor que `estoqueMinimo`. Produtos com saldo exatamente igual ao mínimo não aparecem nessa consulta.
+
 ## 8. Registrar uma entrada no estoque
 
 **Método:** `POST`

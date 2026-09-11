@@ -50,4 +50,11 @@ public class ProdutoController {
     public List<ProdutoResponse> listar() {
         return service.listar().stream().map(mapper::toResponse).toList();
     }
+
+    @GetMapping("/estoque-baixo")
+    public List<ProdutoResponse> listarComEstoqueAbaixoDoMinimo() {
+        return service.listarComEstoqueAbaixoDoMinimo().stream()
+                .map(mapper::toResponse)
+                .toList();
+    }
 }

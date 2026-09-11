@@ -67,6 +67,11 @@ public class ProdutoService {
         return produtoRepository.buscarTodosComRelacionamentos();
     }
 
+    @Transactional(readOnly = true)
+    public List<Produto> listarComEstoqueAbaixoDoMinimo() {
+        return produtoRepository.buscarComEstoqueAbaixoDoMinimo();
+    }
+
     @Transactional
     public Produto receberEstoque(Long id, BigDecimal quantidade) {
         return lancamentoService.registrar(id, com.curso.estoquecontrol.domain.TipoMovimento.ENTRADA,

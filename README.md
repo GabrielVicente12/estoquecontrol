@@ -78,6 +78,7 @@ Cada execução cria novos códigos únicos, permitindo repetir o roteiro sem li
 | GET | `/api/fornecedores/{id}` | Consultar fornecedor |
 | POST / GET | `/api/produtos` | Cadastrar / listar produtos |
 | GET | `/api/produtos/{id}` | Consultar produto e saldo |
+| GET | `/api/produtos/estoque-baixo` | Listar produtos com saldo abaixo do mínimo |
 | POST / GET | `/api/lancamentos-estoque` | Registrar / listar lançamentos |
 | GET | `/api/lancamentos-estoque/{id}` | Consultar lançamento |
 | GET | `/api/lancamentos-estoque?produtoId={id}` | Histórico de um produto |

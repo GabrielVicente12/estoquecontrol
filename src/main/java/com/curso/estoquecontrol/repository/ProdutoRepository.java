@@ -29,6 +29,10 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     List<Produto> buscarTodosComRelacionamentos();
 
     @EntityGraph(attributePaths = {"grupo", "fornecedor"})
+    @Query("select p from Produto p where p.saldoEstoque < p.estoqueMinimo order by p.id")
+    List<Produto> buscarComEstoqueAbaixoDoMinimo();
+
+    @EntityGraph(attributePaths = {"grupo", "fornecedor"})
     @Query("select p from Produto p where p.id = :id")
     Optional<Produto> buscarPorIdComRelacionamentos(@Param("id") Long id);
 }

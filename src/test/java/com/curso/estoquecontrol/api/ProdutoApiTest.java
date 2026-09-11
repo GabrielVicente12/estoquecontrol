@@ -81,4 +81,42 @@ class ProdutoApiTest {
                 .andExpect(jsonPath("$.message").value("Produto não encontrado"))
                 .andExpect(jsonPath("$.path").value("/api/produtos/" + Long.MAX_VALUE));
     }
+
+    @Test
+    void deveListarSomenteProdutosAbaixoDoEstoqueMinimo() throws Exception {
+        GrupoProduto grupo = grupoRepository.save(new GrupoProduto("Grupo Estoque Baixo"));
+
+        String produtoAbaixoDoMinimo = """
+                {
+                  "codigoBarras": "BAIXO-001",
+                  "descricao": "Produto abaixo do mínimo",
+                  "valorUnitario": 10.00,
+                  "estoqueMinimo": 5.000,
+                  "grupoId": %d
+                }
+                """.formatted(grupo.getId());
+        String produtoNoMinimo = """
+                {
+                  "codigoBarras": "NORMAL-001",
+                  "descricao": "Produto no mínimo",
+                  "valorUnitario": 10.00,
+                  "estoqueMinimo": 0.000,
+                  "grupoId": %d
+                }
+                """.formatted(grupo.getId());
+
+        mockMvc.perform(post("/api/produtos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(produtoAbaixoDoMinimo))
+                .andExpect(status().isCreated());
+        mockMvc.perform(post("/api/produtos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(produtoNoMinimo))
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(get("/api/produtos/estoque-baixo"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.codigoBarras == 'BAIXO-001')]").isNotEmpty())
+                .andExpect(jsonPath("$[?(@.codigoBarras == 'NORMAL-001')]").isEmpty());
+    }
 }
